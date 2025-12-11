@@ -1,0 +1,41 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: us-east-1
+    BACKEND_IMAGE: auto-blog-backend
+    FRONTEND_IMAGE: auto-blog-frontend
+  parameter-store:
+    ECR_ACCOUNT_ID: "/app/ecr_account_id"
+    ECR_REGISTRY: "/app/ecr_registry" # optional; can be `${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com`
+
+phases:
+  install:
+    runtime-versions:
+      docker: 20
+    commands:
+      - echo Installing dependencies
+      - aws --version
+      - echo Logging in to Amazon ECR
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin ${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+  pre_build:
+    commands:
+      - echo Pre-build: setting tags
+      - COMMIT_ID=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-7)
+      - DATE_TAG=$(date +%Y%m%d%H%M%S)
+      - BACKEND_TAG=${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${BACKEND_IMAGE}:${COMMIT_ID}
+      - FRONTEND_TAG=${ECR_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${FRONTEND_IMAGE}:${COMMIT_ID}
+  build:
+    commands:
+      - echo Building Docker images
+      - docker build -t $BACKEND_TAG ./backend
+      - docker build -t $FRONTEND_TAG ./frontend
+  post_build:
+    commands:
+      - echo Pushing images to ECR
+      - docker push $BACKEND_TAG
+      - docker push $FRONTEND_TAG
+      - printf '{"backend":"%s","frontend":"%s"}' "$BACKEND_TAG" "$FRONTEND_TAG" > image_manifest.json
+artifacts:
+  files:
+    - image_manifest.json

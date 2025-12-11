@@ -1,0 +1,38 @@
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    image: auto-blog-backend:local
+    ports:
+      - "8081:8080"
+    env_file:
+      - ../backend/.env
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ../frontend
+      args:
+        VITE_API_BASE: http://localhost:8081/api
+    image: auto-blog-frontend:local
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: blog
+      POSTGRES_PASSWORD: blogpw
+      POSTGRES_DB: blogdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../infra/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  pgdata:

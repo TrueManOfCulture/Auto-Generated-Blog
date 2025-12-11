@@ -1,0 +1,17 @@
+{
+  "name": "auto-generated-blog-backend",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3",
+    "node-cron": "^3.0.3",
+    "axios": "^1.7.7"
+  }
+}
