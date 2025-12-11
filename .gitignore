@@ -6,8 +6,8 @@ node_modules/
 /frontend/dist
 
 # Environment Files (Credentials)
-.env
-.env.*
+# .env
+# .env.*
 npm-debug.log
 yarn-error.log
 
