@@ -1,0 +1,18 @@
+# Dependency Directories (IGNORED EVERYWHERE)
+node_modules/ 
+
+# Build/Output Directories (IGNORED EVERYWHERE)
+/backend/dist
+/frontend/dist
+
+# Environment Files (Credentials)
+.env
+.env.*
+npm-debug.log
+yarn-error.log
+
+# Editor/OS Files
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
