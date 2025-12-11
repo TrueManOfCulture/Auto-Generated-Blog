@@ -1,42 +1,88 @@
+/* Layout */
 #root {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+}
+
+.container h1 {
+  margin: 0 0 1rem 0;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.5rem;
+  align-items: start;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Sidebar */
+.sidebar {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.sidebar h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
 }
 
-.card {
-  padding: 2em;
+.article-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.read-the-docs {
-  color: #888;
+.article-item {
+  margin: 0.25rem 0;
+}
+
+.article-button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.14);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+}
+
+.article-button:hover {
+  border-color: #646cff;
+}
+
+/* Content */
+.content {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  min-height: 300px;
+}
+
+article h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.article-body {
+  white-space: pre-wrap;
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  line-height: 1.7;
+}
+
+/* States */
+.error {
+  background: #3a1a1a;
+  border: 1px solid #cc4d4d;
+  color: #ffb3b3;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.loading {
+  opacity: 0.75;
 }

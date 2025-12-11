@@ -61,7 +61,20 @@ export async function generateArticle(topic = "A random technical topic suitable
         const data = await response.json();
         
         // --- 1. Extract and Parse the Content ---
-        const rawJsonText = data.choices[0].message.content.trim();
+        // Changed 'const' to 'let' so we can clean the string
+        let rawJsonText = data.choices[0].message.content.trim(); 
+        
+        // FIX: Remove Markdown code fences (e.g., ```json\n...\n```) if present
+        if (rawJsonText.startsWith("```json")) {
+            rawJsonText = rawJsonText.substring(7); // Remove '```json'
+        } else if (rawJsonText.startsWith("```")) {
+            rawJsonText = rawJsonText.substring(3); // Remove '```'
+        }
+        if (rawJsonText.endsWith("```")) {
+            rawJsonText = rawJsonText.slice(0, -3); // Remove trailing '```'
+        }
+
+        rawJsonText = rawJsonText.trim(); // Trim any remaining whitespace after cleaning
         
         let parsedArticle;
         try {

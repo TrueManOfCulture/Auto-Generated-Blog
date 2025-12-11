@@ -3,11 +3,11 @@ import db from '../services/db.js';
 
 const router = express.Router();
 
-// GET /articles - list all articles (id, title, created_at)
+// GET /articles - list all articles (id, title, generated_at)
 router.get('/articles', async (req, res) => {
 	try {
 		const result = await db.query(
-			'SELECT id, title, created_at FROM articles ORDER BY created_at DESC'
+			'SELECT id, title, generated_at FROM articles ORDER BY generated_at DESC'
 		);
 		res.json(result.rows);
 	} catch (err) {
@@ -21,7 +21,7 @@ router.get('/articles/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
 		const result = await db.query(
-			'SELECT id, title, content, created_at FROM articles WHERE id = $1',
+			'SELECT id, title, content, generated_at FROM articles WHERE id = $1',
 			[id]
 		);
 		if (result.rows.length === 0) {
